@@ -25,11 +25,11 @@ const japaneseDoodleFont = Yomogi({
 
 export default function Home() {
   return (
-    <main className={`${japaneseDoodleFont.className} min-h-screen bg-gray-200 text-orange-400`}>
+    <main className={`${japaneseDoodleFont.className} relative z-10 min-h-screen text-orange-400`}>
       <section className="min-h-screen flex flex-col items-stretch justify-center px-6">
         <div className={`${doodleFont.className} flex flex-col w-full max-w-7xl mx-auto font-extrabold tracking-tight leading-[0.9] mb-6`}>
           <span className="intro-fade-up hero-outline block w-full text-left text-[clamp(8rem,30vw,20rem)] text-orange-400">Hello!</span>
-          <span className="intro-fade-up intro-fade-up-delay hero-outline block w-full text-right text-[clamp(3.5rem,16vw,12rem)] text-orange-400">I'm mido</span>
+          <span className="intro-fade-up intro-fade-up-delay hero-outline block w-full text-right text-[clamp(3.5rem,16vw,12rem)] text-orange-400">I&apos;m Kota Muro</span>
         </div>
         <div aria-hidden="true" />
       </section>
@@ -75,7 +75,7 @@ export default function Home() {
                 原案、プログラム、UI、タイトルロゴ（左の画像）を担当。
               </p>
               <p className="leading-relaxed">
-                2022年夏制作。Unity使用。すべてにおいて、生成AIを使用していません。
+                2022年夏制作。Unity使用。すべてにおいて、生成AI不使用。
               </p>
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function Home() {
                       3人チームでの共同開発作品。プランナー、プログラム、UIを担当。
                     </p>
                     <p className="leading-relaxed">
-                      2023年春制作。Unity使用。すべてにおいて、生成AIを使用していません。
+                      2023年春制作。Unity使用。すべてにおいて、生成AI不使用。
                       
                     </p>
                   </div>
@@ -297,7 +297,7 @@ export default function Home() {
                         4人チームでの共同開発作品。プランナー、プログラム、UIを担当。
                       </p>
                       <p className="leading-relaxed">
-                        2023年夏制作。Unity使用。すべてにおいて、生成AIを使用していません。
+                        2023年夏制作。Unity使用。すべてにおいて、生成AI不使用。
                       </p>
                     </div>
                   </div>
