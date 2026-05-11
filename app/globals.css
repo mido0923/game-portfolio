@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --two-frame-duration: 1s;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.intro-fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: fade-up 1200ms ease-out 200ms both;
+}
+
+.intro-fade-up-delay {
+  animation-delay: 700ms;
+}
+
+.hero-outline {
+  -webkit-text-stroke: 4px #ffffff;
+  -webkit-text-fill-color: currentColor;
+  paint-order: stroke fill;
+  text-shadow:
+    4px 0 0 #ffffff,
+    -4px 0 0 #ffffff,
+    0 4px 0 #ffffff,
+    0 -4px 0 #ffffff,
+    3px 3px 0 #ffffff,
+    -3px -3px 0 #ffffff,
+    -3px 3px 0 #ffffff,
+    3px -3px 0 #ffffff;
+}
+
+@keyframes title-wobble {
+  0%, 49.999% {
+    transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+  }
+  50%, 100% {
+    transform: translateX(16px) translateY(-3px) rotate(-2deg) scale(1.06);
+  }
+}
+
+.title-wobble {
+  display: inline-block;
+  transform-origin: center;
+  will-change: transform;
+  animation: title-wobble var(--two-frame-duration) steps(2, end) infinite alternate;
+}
+
+@keyframes about-scale {
+  0%, 49.999% {
+    transform: scale(1);
+  }
+  50%, 100% {
+    transform: scale(1.2);
+  }
+}
+
+.about-pop {
+  display: inline-block;
+  transform-origin: center;
+  will-change: transform;
+  animation: about-scale var(--two-frame-duration) steps(2, end) infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-fade-up {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .title-wobble {
+    animation: none;
+  }
+
+  .about-pop {
+    animation: none;
+  }
+}
