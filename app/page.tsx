@@ -12,6 +12,9 @@ import emoTitle from "../png/EMO/emotitle.png";
 import emo1 from "../png/EMO/emo1.png";
 import emo2 from "../png/EMO/emo2.png";
 import emoGif from "../png/EMO/emogif.gif";
+import npsTitle from "../png/NPS/npstitle.png";
+import npsStill1 from "../png/NPS/HowToPlay.png";
+import npsGif from "../png/NPS/NPS.gif";
 
 const doodleFont = Permanent_Marker({
   weight: "400",
@@ -363,8 +366,96 @@ export default function Home() {
                     </p>
                     <p className="leading-relaxed">
                      グループでの議論になかなか参加してくれないメンバーとも個人間でコミュニケーションを取り、志向ややりたいことのすり合わせを行い、なるべく楽しく作ってもらえることを心掛け、完成させることができた。
-                     
+
                     </p>
+                  </div>
+                </div>
+
+                <div className="mt-16 border-t border-gray-400/40 pt-10">
+                  <div className="flex gap-8 items-start px-8">
+                    <div className="relative z-10 flex-shrink-0 inline-block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-20">
+                      <div
+                        className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
+                        aria-hidden="true"
+                      />
+                      <div className="absolute inset-0 rounded-3xl bg-white" aria-hidden="true" />
+                      <Image
+                        src={npsTitle}
+                        alt="NPS"
+                        width={512}
+                        height={512}
+                        className="relative block w-150 h-auto rounded-3xl"
+                        priority
+                      />
+                    </div>
+
+                    <div className="relative z-0 flex-1 -ml-12 mt-6">
+                      <div className="absolute -top-8 left-20 z-10">
+                        <span className="hero-outline about-pop text-4xl font-bold">About</span>
+                      </div>
+                      <div className="bg-white rounded-3xl border-2 border-white/80 p-8 pt-10 pl-16 text-3xl">
+                        <p className="leading-relaxed mb-4">
+                          初心者も上級者も関係ない。己のAIMだけで戦うFPSゲーム。
+                        </p>
+                        <p className="leading-relaxed mb-4">
+                          3人チームでの共同開発作品。プランナー、プログラムを担当。
+                        </p>
+                        <p className="leading-relaxed">
+                          2024年春制作。OpenSiv3Dで作成。すべてにおいて、生成AI不使用。
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-10 px-8">
+                    <div className="flex items-start">
+                      <div className="relative inline-block flex-1 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
+                        <div
+                          className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
+                          aria-hidden="true"
+                        />
+                        <div className="relative rounded-3xl bg-white p-2">
+                          <Image
+                            src={npsStill1}
+                            alt="NPS HowToPlay"
+                            width={800}
+                            height={800}
+                            className="block w-full h-auto rounded-2xl"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="relative inline-block flex-1 mt-16 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10 ml-[-4rem]">
+                        <div
+                          className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
+                          aria-hidden="true"
+                        />
+                        <div className="relative rounded-3xl bg-white p-2">
+                          <Image
+                            src={npsGif}
+                            alt="NPS GIF"
+                            width={800}
+                            height={800}
+                            className="block w-full h-auto rounded-2xl"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="px-8 mt-8">
+                    <div className="bg-white rounded-3xl border-2 border-white/80 p-6 text-3xl">
+                      <h4 className="hero-outline about-pop text-4xl font-bold mb-3">More</h4>
+                      <p className="leading-relaxed mb-3">
+                        知識量やテクニックで差のつかない、純粋なAIM力勝負ができるFPSゲームというコンセプトで制作。ダメージを受けると体が磁石になっていき、近くの壁に引き寄せられていく。
+                      </p>
+                      <p className="leading-relaxed mb-3">
+                        Unity以外でのゲーム制作も学ぶため、ゲームライブラリであるOpenSiv3Dを用いた。OpenSiv3Dは、製作者のブログしか参考にできる資料がなく、意図した仕様の実装に苦労した。
+                      </p>
+                      <p className="leading-relaxed">
+                        また、今までのゲーム制作でメンバーの熱意が最もあったため、初めの方は進捗の報告や役割分担のミスなどで手間を増やしてしまうこともあったが、コミュニケーションを重ね、製作スピードがどんどん速くなっていった。
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
