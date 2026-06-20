@@ -27,7 +27,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      {/* 既定の表示倍率（ブラウザ拡大率67%相当）。"1" で元の大きさ */}
+      <body className="min-h-full flex flex-col" style={{ zoom: "0.67" }}>
+        {children}
+      </body>
     </html>
   );
 }

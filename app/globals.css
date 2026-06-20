@@ -21,6 +21,7 @@
 }
 
 body {
+  /* 表示倍率(zoom)は Lightning CSS に消されるため layout.tsx の inline style で指定 */
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
@@ -122,6 +123,629 @@ body::after {
   animation: about-scale var(--two-frame-duration) steps(2, end) infinite alternate;
 }
 
+/* =========================================================
+   ほうき掃き → ブロックめくり演出
+   SweepReveal がセクションに付ける .swept で一斉に発火する
+   ========================================================= */
+
+.sweep-stage {
+  position: relative;
+  overflow: hidden;
+}
+
+/* --- ほうき本体（画面全体をひと掃き） --- */
+.broom {
+  position: absolute;
+  top: 8vh;
+  left: 0;
+  z-index: 40;
+  width: 280px;
+  height: 450px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-15vw) rotate(-20deg);
+  transform-origin: center;
+}
+
+.broom-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.22))
+    drop-shadow(0 0 14px rgba(255, 214, 130, 0.7));
+}
+
+/* 魔法のきらめく軌跡 */
+.broom::after {
+  content: "";
+  position: absolute;
+  top: 56%;
+  right: 68%;
+  width: 75vw;
+  height: 28px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 214, 130, 0.6));
+  filter: blur(9px);
+  opacity: 0.85;
+}
+
+@keyframes broom-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-15vw) rotate(-24deg);
+  }
+  12% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(112vw) rotate(-12deg);
+  }
+}
+
+.swept .broom {
+  animation: broom-sweep 1100ms cubic-bezier(0.45, 0, 0.55, 1) 60ms forwards;
+}
+
+/* --- 各オブジェクトのめくり（両面フリップ：裏 → 表） --- */
+.flip3d {
+  perspective: 1400px;
+}
+
+.flip3d__inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transform-origin: center;
+  /* 最初は裏面を見せておく */
+  transform: rotateY(180deg);
+  will-change: transform;
+}
+
+.flip3d__face {
+  backface-visibility: hidden;
+}
+
+.flip3d__front {
+  position: relative;
+}
+
+.flip3d__back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+/* 裏面 PNG 未指定時の仮デザイン */
+.card-back-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.5rem;
+  background-color: #fb923c; /* orange-400 */
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0 8px, transparent 8px 20px),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4), transparent 62%);
+  border: 6px solid #ffffff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* mc-draw 風: 浮き上がり + 傾き + フリップ + 軽いオーバーシュート */
+@keyframes flip-magic {
+  0% {
+    transform: rotateY(180deg) rotateZ(-10deg) translateY(38px) scale(0.92);
+  }
+  55% {
+    transform: rotateY(360deg) rotateZ(4deg) translateY(-14px) scale(1.04);
+  }
+  100% {
+    transform: rotateY(360deg) rotateZ(0deg) translateY(0) scale(1);
+  }
+}
+
+/* ほうきが通った後、--i の順に「波」のようにめくれる */
+.swept .flip3d__inner {
+  animation: flip-magic 900ms cubic-bezier(0.2, 0.7, 0.25, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 150ms + 450ms);
+}
+
+/* =========================================================
+   ロボラボ: オブジェクトを1つずつ配置 → 行動開始ボタン → 画面が揺れる
+   ========================================================= */
+
+.robot-stage {
+  position: relative;
+}
+
+/* --- インベントリ（上部の山札バー） --- */
+.inventory {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 2.5rem;
+  padding: 1rem 1.4rem;
+  background: rgba(255, 255, 255, 0.55);
+  border: 3px dashed rgba(251, 146, 60, 0.7);
+  border-radius: 1.5rem;
+}
+
+.inv-slot {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background: #fff7ed;
+  border: 2px solid rgba(251, 146, 60, 0.5);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.15s ease;
+}
+
+.inv-thumb {
+  object-fit: cover;
+}
+
+.inv-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fb923c;
+}
+
+.inv-slot.is-picking {
+  transform: scale(0.9);
+}
+
+/* 取り出した枠は空になる */
+.inv-slot.is-used .inv-thumb,
+.inv-slot.is-used .inv-label {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* --- 配置されるオブジェクト（カーソルが置いた瞬間にポンと出る） --- */
+.place-item {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@keyframes place-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-52px) scale(1.12) rotate(-3deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(7px) scale(0.98) rotate(1deg);
+  }
+  80% {
+    transform: translateY(-2px) scale(1.01) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+.place-item.is-placed {
+  animation: place-drop 340ms cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+.place-item.no-anim {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+/* --- 疑似マウスカーソル --- */
+.fake-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-40px, -20px);
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.35));
+  transition: opacity 0.25s ease;
+}
+
+.fake-cursor.is-active {
+  opacity: 1;
+}
+
+.fake-cursor svg {
+  transition: transform 0.12s ease;
+}
+
+.fake-cursor.is-grab svg {
+  transform: scale(0.82);
+}
+
+.fake-cursor.is-drop svg {
+  transform: scale(1.12);
+}
+
+/* --- 行動開始ボタン（全部置き終わると出現） --- */
+.place-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  padding: 0 2rem;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+
+.robot-stage.ready .place-actions {
+  animation: btn-appear 500ms ease-out forwards;
+  pointer-events: auto;
+}
+
+@keyframes btn-appear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.start-btn {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: #fb923c;
+  border: 4px solid #ffffff;
+  border-radius: 9999px;
+  padding: 0.6rem 2.6rem;
+  cursor: pointer;
+  box-shadow:
+    0 8px 0 rgba(0, 0, 0, 0.15),
+    0 12px 26px rgba(251, 146, 60, 0.45);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+}
+
+.start-btn:active,
+.start-btn.is-pressed {
+  transform: translateY(4px);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.15),
+    0 6px 14px rgba(251, 146, 60, 0.4);
+}
+
+/* --- 画面全体が揺れる --- */
+@keyframes screen-shake {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  10% {
+    transform: translate(-7px, 3px) rotate(-0.6deg);
+  }
+  20% {
+    transform: translate(8px, -3px) rotate(0.6deg);
+  }
+  30% {
+    transform: translate(-9px, 3px) rotate(-0.5deg);
+  }
+  40% {
+    transform: translate(8px, -2px) rotate(0.5deg);
+  }
+  50% {
+    transform: translate(-6px, 2px) rotate(-0.4deg);
+  }
+  60% {
+    transform: translate(5px, -2px) rotate(0.3deg);
+  }
+  70% {
+    transform: translate(-4px, 1px) rotate(0deg);
+  }
+  80% {
+    transform: translate(3px, -1px) rotate(0deg);
+  }
+  90% {
+    transform: translate(-2px, 1px) rotate(0deg);
+  }
+}
+
+.screen-shaking {
+  animation: screen-shake 650ms ease-in-out;
+}
+
+/* =========================================================
+   EMO: 白黒の手描き風の線で輪郭を描く → 色がついて本物になる
+   SketchReveal が付ける .drawn で発火（--i 順）
+   ========================================================= */
+
+.sketch-stage {
+  position: relative;
+}
+
+.sketch-item {
+  position: relative;
+}
+
+/* 中身: 最初は白黒で非表示 */
+.sketch-content {
+  position: relative;
+  opacity: 0;
+  filter: grayscale(1);
+  will-change: opacity, filter;
+}
+
+/* 手描き風の輪郭線（進行は JS が stroke-dashoffset で駆動） */
+.sketch-ink {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  /* 明るい背景でも白線が見えるように影を付ける */
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+}
+
+.sketch-ink.is-inking {
+  opacity: 1;
+}
+
+.sketch-ink.is-faded {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.sketch-line {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@keyframes colorize {
+  0% {
+    opacity: 0;
+    filter: grayscale(1) brightness(1.08);
+  }
+  35% {
+    opacity: 1;
+    filter: grayscale(1) brightness(1.04);
+  }
+  100% {
+    opacity: 1;
+    filter: grayscale(0) brightness(1);
+  }
+}
+
+/* 線を引いた後、色がついて本物になる（JS が is-colored を付与） */
+.sketch-content.is-colored {
+  animation: colorize 560ms ease-out forwards;
+}
+
+.sketch-content.is-colored.no-anim {
+  animation: none;
+  opacity: 1;
+  filter: none;
+}
+
+/* =========================================================
+   NPS: 着弾（弾痕）→ 弾痕にズームして中身（作品紹介）が現れる
+   NpsReveal が付ける .fired で発火
+   ========================================================= */
+
+.nps-stage {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ズームの中心（弾痕の位置） */
+.nps-stage {
+  --nps-x: 50%;
+  --nps-y: 36%;
+}
+
+/* 中身はそのまま置いておき、黒壁(.nps-cover)で隠す。穴が開いたら軽くズーム。 */
+.nps-view {
+  transform: scale(1.08);
+  transform-origin: var(--nps-x) var(--nps-y);
+  will-change: transform;
+}
+
+@keyframes nps-zoom {
+  0% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.nps-stage.fired .nps-view {
+  animation: nps-zoom 1300ms cubic-bezier(0.22, 0.61, 0.36, 1) 650ms forwards;
+}
+
+/* 黒い壁: 最初から中身を覆い、撃つと弾痕の位置に穴が開いて広がる */
+@property --nps-hole {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+.nps-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  --nps-hole: 0%;
+  background: radial-gradient(
+    circle at var(--nps-x) var(--nps-y),
+    transparent 0 var(--nps-hole),
+    #050403 calc(var(--nps-hole) + 1.5%)
+  );
+}
+
+@keyframes nps-cover {
+  0% {
+    --nps-hole: 0%;
+  }
+  6% {
+    --nps-hole: 4.5%;
+  }
+  20% {
+    --nps-hole: 7%;
+  }
+  100% {
+    --nps-hole: 145%;
+  }
+}
+
+.nps-stage.fired .nps-cover {
+  animation: nps-cover 1500ms cubic-bezier(0.5, 0, 0.2, 1) 560ms forwards;
+}
+
+/* 弾痕（着弾 → ズームで通り抜けてフェード） */
+.nps-impact {
+  position: absolute;
+  top: var(--nps-y);
+  left: var(--nps-x);
+  width: 38vh;
+  height: 38vh;
+  transform: translate(-50%, -50%) scale(0.1);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.nps-hole {
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+@keyframes nps-impact {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.08);
+  }
+  7% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.34);
+  }
+  16% {
+    transform: translate(-50%, -50%) scale(0.28);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.6);
+  }
+}
+
+.nps-stage.fired .nps-impact {
+  animation: nps-impact 1300ms ease-out 540ms forwards;
+}
+
+/* 銃: 右から入る → 狙う → リコイル（発砲）→ 退場 */
+.nps-gun {
+  position: absolute;
+  left: var(--nps-x);
+  top: var(--nps-y);
+  width: 34vh;
+  height: auto;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(55vw, 8vh) rotate(6deg);
+  transform-origin: 14% 18%;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes nps-gun {
+  0% {
+    opacity: 0;
+    transform: translate(55vw, 8vh) rotate(6deg);
+  }
+  6% {
+    opacity: 1;
+  }
+  24%,
+  31% {
+    transform: translate(-12%, -16%) rotate(4deg);
+  }
+  /* リコイル */
+  35% {
+    transform: translate(3vw, 4vh) rotate(15deg);
+  }
+  44% {
+    transform: translate(-12%, -16%) rotate(4deg);
+  }
+  62% {
+    opacity: 1;
+    transform: translate(-9%, -13%) rotate(3deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(44vw, 6vh) rotate(9deg);
+  }
+}
+
+.nps-stage.fired .nps-gun {
+  animation: nps-gun 1750ms cubic-bezier(0.3, 0.7, 0.3, 1) forwards;
+}
+
+/* マズルフラッシュ */
+.nps-flash {
+  position: absolute;
+  left: var(--nps-x);
+  top: var(--nps-y);
+  width: 26vh;
+  height: 26vh;
+  transform: translate(-50%, -50%) scale(0.2);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 244, 200, 0.95) 0%,
+    rgba(255, 200, 90, 0.7) 30%,
+    rgba(255, 170, 60, 0) 65%
+  );
+  opacity: 0;
+  pointer-events: none;
+  z-index: 7;
+  mix-blend-mode: screen;
+}
+
+@keyframes nps-flash {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.35);
+  }
+}
+
+.nps-stage.fired .nps-flash {
+  animation: nps-flash 340ms ease-out 560ms forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .intro-fade-up {
     opacity: 1;
@@ -135,5 +759,63 @@ body::after {
 
   .about-pop {
     animation: none;
+  }
+
+  /* 演出は「即表示」にフォールバック: 表面・原寸、ほうきは非表示 */
+  .broom {
+    display: none;
+  }
+
+  .flip3d__inner {
+    transform: rotateY(0deg);
+    animation: none;
+  }
+
+  .place-item {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .place-actions {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    pointer-events: auto;
+  }
+
+  .fake-cursor {
+    display: none;
+  }
+
+  .screen-shaking {
+    animation: none;
+  }
+
+  .sketch-content {
+    opacity: 1;
+    filter: none;
+    animation: none;
+  }
+
+  .sketch-ink {
+    display: none;
+  }
+
+  .nps-view {
+    clip-path: none;
+    transform: none;
+    opacity: 1;
+    animation: none;
+  }
+
+  .nps-impact {
+    display: none;
+  }
+
+  .nps-gun,
+  .nps-flash,
+  .nps-cover {
+    display: none;
   }
 }

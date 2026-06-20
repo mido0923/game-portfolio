@@ -15,6 +15,13 @@ import emoGif from "../png/EMO/emogif.gif";
 import npsTitle from "../png/NPS/npstitle.png";
 import npsStill1 from "../png/NPS/HowToPlay.png";
 import npsGif from "../png/NPS/NPS.gif";
+import SweepReveal from "./SweepReveal";
+import FlipCard from "./FlipCard";
+import RobotStage from "./RobotStage";
+import PlaceItem from "./PlaceItem";
+import SketchReveal from "./SketchReveal";
+import SketchItem from "./SketchItem";
+import NpsReveal from "./NpsReveal";
 
 const doodleFont = Permanent_Marker({
   weight: "400",
@@ -43,10 +50,20 @@ export default function Home() {
         </h2>
         <div className="mt-8 border-t border-gray-400/40 pt-10">
       
+          <RobotStage
+            inventory={[
+              { label: "Title", img: robotlabotTitle },
+              { label: "About" },
+              { label: "Shot1", img: robotlabotStill1 },
+              { label: "Shot2", img: robotlabotStill2 },
+              { label: "GIF", img: robotlabotGif },
+              { label: "More" },
+            ]}
+          >
           <div className="flex gap-8 items-start px-8">
             {/* 左側: PNG画像（ロゴ） */}
-            {/* z-10 でデフォルト前面。ホバー時は z-20 でさらに前面に。 */}
-            <div className="relative z-10 flex-shrink-0 inline-block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-20">
+            <PlaceItem i={0} className="relative z-10 flex-shrink-0">
+            <div className="relative inline-block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-20">
               <div
                 className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
                 aria-hidden="true"
@@ -61,9 +78,10 @@ export default function Home() {
                 priority
               />
             </div>
+            </PlaceItem>
             
             {/* 右側: Aboutテキスト */}
-            <div className="relative z-0 flex-1 -ml-12 mt-6">
+            <PlaceItem i={1} className="relative z-0 flex-1 -ml-12 mt-6">
               <div className="absolute -top-8 left-20 z-10">
                 <span className="hero-outline about-pop text-4xl font-bold">About</span>
               </div>
@@ -81,7 +99,7 @@ export default function Home() {
                 2022年夏制作。Unity使用。すべてにおいて、生成AI不使用。
               </p>
               </div>
-            </div>
+            </PlaceItem>
           </div>
 
           <div className="mt-10 px-8">
@@ -90,7 +108,8 @@ export default function Home() {
               
               {/* スクショ1（最背面） */}
               {/* ホバー時に z-10 で前面に。 */}
-              <div className="relative inline-block flex-1 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
+              <PlaceItem i={2} className="relative inline-block flex-1">
+              <div className="relative block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
                 <div
                   className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
                   aria-hidden="true"
@@ -105,10 +124,12 @@ export default function Home() {
                   />
                 </div>
               </div>
+              </PlaceItem>
               
               {/* ▼ スクショ2 ▼ */}
               {/* ホバー時に z-10 で前面に。ml-[-4rem] で左に重ねました。 */}
-              <div className="relative inline-block flex-1 mt-16 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10 ml-[-4rem]">
+              <PlaceItem i={3} className="relative inline-block flex-1 mt-16 ml-[-4rem]">
+              <div className="relative block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
                 <div
                     className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
                     aria-hidden="true"
@@ -123,10 +144,12 @@ export default function Home() {
                   />
                 </div>
               </div>
+              </PlaceItem>
 
               {/* ▼ GIF（最前面） ▼ */}
               {/* ホバー時に z-10 で前面に。ml-[-4rem] で左に重ねました。 */}
-              <div className="relative inline-block flex-1 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10 ml-[-4rem]">
+              <PlaceItem i={4} className="relative inline-block flex-1 ml-[-4rem]">
+              <div className="relative block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
                 <div
                   className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
                   aria-hidden="true"
@@ -141,13 +164,14 @@ export default function Home() {
                   />
                 </div>
               </div>
+              </PlaceItem>
               {/* ▲ GIF ここまで ▲ */}
 
             </div>
           </div>
 
             {/* Robotlabot: More */}
-            <div className="px-8 mt-8">
+            <PlaceItem i={5} className="px-8 mt-8">
               <div className="bg-white rounded-3xl border-2 border-white/80 p-6 text-3xl">
                 <h4 className="hero-outline about-pop text-4xl font-bold mb-3">More</h4>
                 <p className="leading-relaxed">
@@ -159,120 +183,138 @@ export default function Home() {
                 <p className="leading-relaxed">
                 学園祭での展示ということで、直感的なわかりやすさ、手に取ってもらいやすさを重視した。
               </p>
-              <p className="leading-relaxed"> 
+              <p className="leading-relaxed">
                 特に、多数のゲームが並ぶ中、短い時間で遊ぶゲームとして選ばれるには『第一印象』が重要だと考え、他チームが用意していなかった専用のタイトルロゴを制作した。一番クオリティが高そうだと感じさせる工夫をした結果、多くの来場者の目を引き、学園祭で最も人気なゲームに選んでもらった。
               </p>
               </div>
-            </div>
+            </PlaceItem>
+          </RobotStage>
 
             <div className="mt-16 border-t border-gray-400/40 pt-10">
-              <div className="flex gap-8 items-start px-8">
-                <div className="relative z-10 flex-shrink-0 inline-block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-20">
-                  <div
-                    className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
-                    aria-hidden="true"
-                  />
-                  <div className="absolute inset-0 rounded-3xl bg-white" aria-hidden="true" />
-                  <Image
-                    src={magiTitle}
-                    alt="マジカード"
-                    width={512}
-                    height={512}
-                    className="relative block w-150 h-auto rounded-3xl"
-                    priority
-                  />
-                </div>
-
-                <div className="relative z-0 flex-1 -ml-12 mt-6">
-                  <div className="absolute -top-8 left-20 z-10">
-                    <span className="hero-outline about-pop text-4xl font-bold">About</span>
-                  </div>
-                  <div className="bg-white rounded-3xl border-2 border-white/80 p-8 pt-10 pl-16 text-3xl">
-                    <p className="leading-relaxed mb-4">
-                      敵を倒してカードを集め、ボスに挑むハクスラ系アクションゲーム。デッキからランダムに引かれるカードを駆使して戦う。
-                    </p>
-                    <p className="leading-relaxed mb-4">
-                      3人チームでの共同開発作品。プランナー、プログラム、UIを担当。
-                    </p>
-                    <p className="leading-relaxed">
-                      2023年春制作。Unity使用。すべてにおいて、生成AI不使用。
-                      
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-10 px-8">
-                <div className="flex items-start">
-                  <div className="relative inline-block flex-1 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
-                    <div
-                      className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
-                      aria-hidden="true"
-                    />
-                    <div className="relative rounded-3xl bg-white p-2">
+              <SweepReveal>
+                {/* タイトル・About・スクショ・More を1つずつ波のようにめくる */}
+                <div className="flex gap-8 items-start px-8">
+                  {/* ① タイトル */}
+                  <FlipCard i={0} className="relative z-10 flex-shrink-0">
+                    <div className="relative inline-block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-20">
+                      <div
+                        className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
+                        aria-hidden="true"
+                      />
+                      <div className="absolute inset-0 rounded-3xl bg-white" aria-hidden="true" />
                       <Image
-                        src={magi1}
-                        alt="マジカード スクショ1"
-                        width={800}
-                        height={800}
-                        className="block w-full h-auto rounded-2xl"
+                        src={magiTitle}
+                        alt="マジカード"
+                        width={512}
+                        height={512}
+                        className="relative block w-150 h-auto rounded-3xl"
+                        priority
                       />
                     </div>
-                  </div>
+                  </FlipCard>
 
-                  <div className="relative inline-block flex-1 mt-16 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10 ml-[-4rem]">
-                    <div
-                      className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
-                      aria-hidden="true"
-                    />
-                    <div className="relative rounded-3xl bg-white p-2">
-                      <Image
-                        src={magi3}
-                        alt="マジカード スクショ2"
-                        width={800}
-                        height={800}
-                        className="block w-full h-auto rounded-2xl"
-                      />
+                  {/* ② About */}
+                  <FlipCard i={1} className="relative z-0 flex-1 -ml-12 mt-6">
+                    <div className="absolute -top-8 left-20 z-10">
+                      <span className="hero-outline about-pop text-4xl font-bold">About</span>
                     </div>
-                  </div>
+                    <div className="bg-white rounded-3xl border-2 border-white/80 p-8 pt-10 pl-16 text-3xl">
+                      <p className="leading-relaxed mb-4">
+                        敵を倒してカードを集め、ボスに挑むハクスラ系アクションゲーム。デッキからランダムに引かれるカードを駆使して戦う。
+                      </p>
+                      <p className="leading-relaxed mb-4">
+                        3人チームでの共同開発作品。プランナー、プログラム、UIを担当。
+                      </p>
+                      <p className="leading-relaxed">
+                        2023年春制作。Unity使用。すべてにおいて、生成AI不使用。
+                      </p>
+                    </div>
+                  </FlipCard>
+                </div>
 
-                  <div className="relative inline-block flex-1 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10 ml-[-4rem]">
-                    <div
-                      className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
-                      aria-hidden="true"
-                    />
-                    <div className="relative rounded-3xl bg-white p-2">
-                      <Image
-                        src={magiGif}
-                        alt="マジカード GIF"
-                        width={800}
-                        height={800}
-                        className="block w-full h-auto rounded-2xl"
-                      />
-                    </div>
+                {/* ③〜⑤ サンプル画像（1枚ずつめくる） */}
+                <div className="mt-10 px-8">
+                  <div className="flex items-start">
+                    <FlipCard i={2} className="relative inline-block flex-1">
+                      <div className="relative block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
+                        <div
+                          className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
+                          aria-hidden="true"
+                        />
+                        <div className="relative rounded-3xl bg-white p-2">
+                          <Image
+                            src={magi1}
+                            alt="マジカード スクショ1"
+                            width={800}
+                            height={800}
+                            className="block w-full h-auto rounded-2xl"
+                          />
+                        </div>
+                      </div>
+                    </FlipCard>
+
+                    <FlipCard i={3} className="relative inline-block flex-1 mt-16 ml-[-4rem]">
+                      <div className="relative block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
+                        <div
+                          className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
+                          aria-hidden="true"
+                        />
+                        <div className="relative rounded-3xl bg-white p-2">
+                          <Image
+                            src={magi3}
+                            alt="マジカード スクショ2"
+                            width={800}
+                            height={800}
+                            className="block w-full h-auto rounded-2xl"
+                          />
+                        </div>
+                      </div>
+                    </FlipCard>
+
+                    <FlipCard i={4} className="relative inline-block flex-1 ml-[-4rem]">
+                      <div className="relative block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
+                        <div
+                          className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
+                          aria-hidden="true"
+                        />
+                        <div className="relative rounded-3xl bg-white p-2">
+                          <Image
+                            src={magiGif}
+                            alt="マジカード GIF"
+                            width={800}
+                            height={800}
+                            className="block w-full h-auto rounded-2xl"
+                          />
+                        </div>
+                      </div>
+                    </FlipCard>
                   </div>
                 </div>
-              </div>
 
-              {/* Magicard: More */}
-              <div className="px-8 mt-8">
-                <div className="bg-white rounded-3xl border-2 border-white/80 p-6 text-3xl">
-                  <h4 className="hero-outline about-pop text-4xl font-bold mb-3">More</h4>
-                  <p className="leading-relaxed mb-3">
-                    デッキ構築系カードゲームの持つドローのハラハラ感をアクションゲームに落とし込んでみたいと思い、制作した作品。
-                  </p>
-                  <p className="leading-relaxed">
-                    とりあえず作ってみたいものを規模間や労力を考えずにやみくもに作った。ただ、２か月という開発期間は決まっていたので、まったく時間が足りず、ハクスラのもつやりこみの面白さも取り入れたカードゲームのハラハラ感もアクション性もどれも中途半端なものになってしまったと感じる。
-                  </p>
-                  <p className="leading-relaxed">
-                    ゲーム制作の難しさと、計画を立て、それの面白みについて精査することの重要性を痛感した作品。
-                  </p>
+                {/* ⑥ More */}
+                <div className="px-8 mt-8">
+                  <FlipCard i={5}>
+                    <div className="bg-white rounded-3xl border-2 border-white/80 p-6 text-3xl">
+                      <h4 className="hero-outline about-pop text-4xl font-bold mb-3">More</h4>
+                      <p className="leading-relaxed mb-3">
+                        デッキ構築系カードゲームの持つドローのハラハラ感をアクションゲームに落とし込んでみたいと思い、制作した作品。
+                      </p>
+                      <p className="leading-relaxed">
+                        とりあえず作ってみたいものを規模間や労力を考えずにやみくもに作った。ただ、２か月という開発期間は決まっていたので、まったく時間が足りず、ハクスラのもつやりこみの面白さも取り入れたカードゲームのハラハラ感もアクション性もどれも中途半端なものになってしまったと感じる。
+                      </p>
+                      <p className="leading-relaxed">
+                        ゲーム制作の難しさと、計画を立て、それの面白みについて精査することの重要性を痛感した作品。
+                      </p>
+                    </div>
+                  </FlipCard>
                 </div>
-              </div>
+              </SweepReveal>
 
               <div className="mt-16 border-t border-gray-400/40 pt-10">
+                <SketchReveal>
                 <div className="flex gap-8 items-start px-8">
-                  <div className="relative z-10 flex-shrink-0 inline-block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-20">
+                  <SketchItem i={0} className="relative z-10 flex-shrink-0">
+                  <div className="relative inline-block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-20">
                     <div
                       className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
                       aria-hidden="true"
@@ -287,8 +329,9 @@ export default function Home() {
                       priority
                     />
                   </div>
+                  </SketchItem>
 
-                  <div className="relative z-0 flex-1 -ml-12 mt-6">
+                  <SketchItem i={1} className="relative z-0 flex-1 -ml-12 mt-6">
                     <div className="absolute -top-8 left-20 z-10">
                       <span className="hero-outline about-pop text-4xl font-bold">About</span>
                     </div>
@@ -303,12 +346,13 @@ export default function Home() {
                         2023年夏制作。Unity使用。すべてにおいて、生成AI不使用。
                       </p>
                     </div>
-                  </div>
+                  </SketchItem>
                 </div>
 
                 <div className="mt-10 px-8">
                   <div className="flex items-start">
-                    <div className="relative inline-block flex-1 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
+                    <SketchItem i={2} className="relative inline-block flex-1">
+                    <div className="relative block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
                       <div
                         className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
                         aria-hidden="true"
@@ -323,8 +367,10 @@ export default function Home() {
                         />
                       </div>
                     </div>
+                    </SketchItem>
 
-                    <div className="relative inline-block flex-1 mt-16 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10 ml-[-4rem]">
+                    <SketchItem i={3} className="relative inline-block flex-1 mt-16 ml-[-4rem]">
+                    <div className="relative block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
                       <div
                         className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
                         aria-hidden="true"
@@ -339,8 +385,10 @@ export default function Home() {
                         />
                       </div>
                     </div>
+                    </SketchItem>
 
-                    <div className="relative inline-block flex-1 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10 ml-[-4rem]">
+                    <SketchItem i={4} className="relative inline-block flex-1 ml-[-4rem]">
+                    <div className="relative block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-10">
                       <div
                         className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-orange-400"
                         aria-hidden="true"
@@ -355,10 +403,11 @@ export default function Home() {
                         />
                       </div>
                     </div>
+                    </SketchItem>
                   </div>
                 </div>
 
-                <div className="px-8 mt-8">
+                <SketchItem i={5} className="px-8 mt-8">
                   <div className="bg-white rounded-3xl border-2 border-white/80 p-6 text-3xl">
                     <h4 className="hero-outline about-pop text-4xl font-bold mb-3">More</h4>
                     <p className="leading-relaxed mb-3">
@@ -369,9 +418,11 @@ export default function Home() {
 
                     </p>
                   </div>
-                </div>
+                </SketchItem>
+                </SketchReveal>
 
                 <div className="mt-16 border-t border-gray-400/40 pt-10">
+                <NpsReveal>
                   <div className="flex gap-8 items-start px-8">
                     <div className="relative z-10 flex-shrink-0 inline-block transition-transform duration-300 ease-out hover:scale-105 cursor-pointer hover:z-20">
                       <div
@@ -453,10 +504,11 @@ export default function Home() {
                         Unity以外でのゲーム制作も学ぶため、ゲームライブラリであるOpenSiv3Dを用いた。OpenSiv3Dは、製作者のブログしか参考にできる資料がなく、意図した仕様の実装に苦労した。
                       </p>
                       <p className="leading-relaxed">
-                        また、今までのゲーム制作でメンバーの熱意が最もあったため、初めの方は進捗の報告や役割分担のミスなどで手間を増やしてしまうこともあったが、コミュニケーションを重ね、製作スピードがどんどん速くなっていった。
+                        また、今までのゲーム制作でメンバーの熱意が最もあったため、初めの方は進捗の報告や役割分担のミスなどで手間を増やしてしまうこともあったが、コミュニケーションを重ね、制作スピードがどんどん速くなっていった。
                       </p>
                     </div>
                   </div>
+                </NpsReveal>
                 </div>
               </div>
             </div>
