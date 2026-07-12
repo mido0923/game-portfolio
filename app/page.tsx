@@ -45,6 +45,19 @@ export default function Home() {
       </section>
 
       <section className="px-8 pb-16">
+        <div className="flex justify-center mb-8">
+          <a
+            href="https://github.com/mido0923"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 rounded-full bg-white border-2 border-orange-400 px-6 py-3 text-2xl font-bold text-orange-400 shadow-[0_6px_0_rgba(251,146,60,0.4)] transition-transform duration-200 ease-out hover:-translate-y-1"
+          >
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" aria-hidden="true">
+              <path d="M12 .5C5.73.5.5 5.74.5 12.02c0 5.1 3.29 9.41 7.86 10.94.58.11.79-.25.79-.56 0-.27-.01-1.16-.02-2.1-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 2.9-.39c.98 0 1.97.13 2.9.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.68.8.56A10.97 10.97 0 0 0 23.5 12.02C23.5 5.74 18.27.5 12 .5Z" />
+            </svg>
+            <span className={doodleFont.className}>mido0923</span>
+          </a>
+        </div>
         <h2 className={`${japaneseDoodleFont.className} hero-outline text-5xl sm:text-7xl font-extrabold mb-6 text-center text-orange-400`}>
           <span className="title-wobble inline-block">つくったもの</span>
         </h2>
@@ -156,7 +169,7 @@ export default function Home() {
                 />
                 <div className="relative rounded-3xl bg-white p-2">
                   <Image
-                    src={robotlabotGif}
+                    src={robotlabotGif} unoptimized
                     alt="ロボットラボット GIF"
                     width={800}
                     height={800}
@@ -279,7 +292,7 @@ export default function Home() {
                         />
                         <div className="relative rounded-3xl bg-white p-2">
                           <Image
-                            src={magiGif}
+                            src={magiGif} unoptimized
                             alt="マジカード GIF"
                             width={800}
                             height={800}
@@ -395,7 +408,7 @@ export default function Home() {
                       />
                       <div className="relative rounded-3xl bg-white p-2">
                         <Image
-                          src={emoGif}
+                          src={emoGif} unoptimized
                           alt="EMO GIF"
                           width={800}
                           height={800}
@@ -483,7 +496,7 @@ export default function Home() {
                         />
                         <div className="relative rounded-3xl bg-white p-2">
                           <Image
-                            src={npsGif}
+                            src={npsGif} unoptimized
                             alt="NPS GIF"
                             width={800}
                             height={800}
@@ -512,6 +525,27 @@ export default function Home() {
                 </div>
               </div>
             </div>
+        </div>
+
+        {/* 企画書 (PDF) */}
+        <div className="mt-16 border-t border-gray-400/40 pt-10 px-8">
+          <div className="bg-white rounded-3xl border-2 border-white/80 p-8 sm:p-10 text-3xl flex flex-col items-center gap-6 text-center">
+            <h3 className={`${doodleFont.className} hero-outline text-4xl sm:text-5xl font-extrabold text-orange-400`}>
+              Stand with me
+            </h3>
+            <p className="leading-relaxed">企画書を作成しました。</p>
+            <a
+              href="/Stand_with_me.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 rounded-full bg-orange-400 text-white border-4 border-white px-8 py-4 text-2xl font-bold shadow-[0_6px_0_rgba(0,0,0,0.15)] transition-transform duration-200 ease-out hover:-translate-y-1"
+            >
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true">
+                <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6Zm7 1.5L18.5 9H14a1 1 0 0 1-1-1V3.5ZM8.5 12.5h2a1.75 1.75 0 1 1 0 3.5H9.5v1.5h-1v-5Zm1 1v1h1a.75.75 0 0 0 0-1.5h-1Zm4 -1h1.6a1.9 1.9 0 0 1 0 5H13.5v-5Zm1 1v3h.6a.9.9 0 0 0 0-3h-.6Zm3.5 -1H21v1h-1.5v.9H21v1h-1.5v2.1h-1v-5Z" />
+              </svg>
+              企画書を見る (PDF)
+            </a>
+          </div>
         </div>
       </section>
     </main>
