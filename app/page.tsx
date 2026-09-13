@@ -45,6 +45,30 @@ export default function Home() {
       </section>
 
       <section className="px-8 pb-16">
+        {/* 最新の企画書 (PDF) */}
+        <div className="mb-12">
+          <h2 className="hero-outline text-4xl sm:text-5xl font-extrabold text-center mb-8">企画書</h2>
+          <div className="bg-white rounded-3xl border-2 border-white/80 p-8 sm:p-10 text-3xl flex flex-col items-center gap-6 text-center">
+            <span className="rounded-full bg-orange-100 px-4 py-1 text-lg font-bold text-orange-700">最新の企画書</span>
+            <h3 className={`${doodleFont.className} hero-outline text-4xl sm:text-5xl font-extrabold text-orange-400`}>
+              OverCategory
+            </h3>
+            <p className="leading-relaxed">制作時期：2026年8月</p>
+            <a
+              href="/OverCategory.pdf"
+              aria-label="OverCategoryの企画書を見る（PDF・新しいタブで開きます）"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 rounded-full bg-orange-400 text-white border-4 border-white px-8 py-4 text-2xl font-bold shadow-[0_6px_0_rgba(0,0,0,0.15)] transition-transform duration-200 ease-out hover:-translate-y-1"
+            >
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true">
+                <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6Zm7 1.5L18.5 9H14a1 1 0 0 1-1-1V3.5ZM8.5 12.5h2a1.75 1.75 0 1 1 0 3.5H9.5v1.5h-1v-5Zm1 1v1h1a.75.75 0 0 0 0-1.5h-1Zm4 -1h1.6a1.9 1.9 0 0 1 0 5H13.5v-5Zm1 1v3h.6a.9.9 0 0 0 0-3h-.6Zm3.5 -1H21v1h-1.5v.9H21v1h-1.5v2.1h-1v-5Z" />
+              </svg>
+              企画書を見る (PDF)
+            </a>
+          </div>
+        </div>
+
         <div className="flex justify-center mb-8">
           <a
             href="https://github.com/mido0923"
@@ -527,15 +551,17 @@ export default function Home() {
             </div>
         </div>
 
-        {/* 企画書 (PDF) */}
+        {/* 過去の企画書 (PDF) */}
         <div className="mt-16 border-t border-gray-400/40 pt-10 px-8">
+          <h2 className="hero-outline text-4xl sm:text-5xl font-extrabold text-center mb-8">過去に作成した企画書</h2>
           <div className="bg-white rounded-3xl border-2 border-white/80 p-8 sm:p-10 text-3xl flex flex-col items-center gap-6 text-center">
             <h3 className={`${doodleFont.className} hero-outline text-4xl sm:text-5xl font-extrabold text-orange-400`}>
-              Stand with me
+              右腕募集中
             </h3>
-            <p className="leading-relaxed">企画書を作成しました。</p>
+            <p className="leading-relaxed">制作時期：2024年10月頃</p>
             <a
-              href="/Stand_with_me.pdf"
+              href="/migiude.pdf"
+              aria-label="右腕募集中の企画書を見る（PDF・新しいタブで開きます）"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 rounded-full bg-orange-400 text-white border-4 border-white px-8 py-4 text-2xl font-bold shadow-[0_6px_0_rgba(0,0,0,0.15)] transition-transform duration-200 ease-out hover:-translate-y-1"
