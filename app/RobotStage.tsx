@@ -8,30 +8,25 @@ export type InvSlot = { label: string; img?: StaticImageData };
 /**
  * ロボラボ用オーケストレーター。
  * 上部のインベントリから疑似マウスカーソルが各オブジェクトを1つずつ
- * 「配置」していき、全部置いたらカーソルが「行動開始」ボタンを押す。
- * 押すと画面全体（main）が揺れる。
+ * 「配置」していき、全部置いたらカーソルが消える。
  * 配置先は子の .place-item（DOM順 = inventory 順）。
  * prefers-reduced-motion では全部即表示してカーソル演出はスキップ。
  */
 export default function RobotStage({
   children,
   inventory,
-  buttonLabel = "行動開始",
 }: {
   children: React.ReactNode;
   inventory: InvSlot[];
-  buttonLabel?: string;
 }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
   const startedRef = useRef(false);
 
   useEffect(() => {
     const stage = stageRef.current;
     const cursor = cursorRef.current;
-    const btn = btnRef.current;
-    if (!stage || !cursor || !btn) return;
+    if (!stage || !cursor) return;
 
     const items = Array.from(stage.querySelectorAll<HTMLElement>(".place-item"));
     const slots = Array.from(stage.querySelectorAll<HTMLElement>(".inv-slot"));
@@ -43,7 +38,6 @@ export default function RobotStage({
     if (reduce) {
       items.forEach((el) => el.classList.add("is-placed", "no-anim"));
       slots.forEach((el) => el.classList.add("is-used"));
-      stage.classList.add("ready");
       return;
     }
 
@@ -102,22 +96,6 @@ export default function RobotStage({
         await wait(35);
       }
 
-      // ボタンを表示してから押しに行く
-      stage.classList.add("ready");
-      await wait(80);
-      await moveTo(btn, 230);
-      cursor.classList.add("is-grab");
-      btn.classList.add("is-pressed");
-      await wait(80);
-
-      // 画面全体を揺らす
-      const main = stage.closest("main") ?? document.body;
-      main.classList.add("screen-shaking");
-      window.setTimeout(() => main.classList.remove("screen-shaking"), 650);
-
-      cursor.classList.remove("is-grab");
-      btn.classList.remove("is-pressed");
-      await wait(250);
       cursor.classList.remove("is-active");
     };
 
@@ -137,15 +115,6 @@ export default function RobotStage({
     return () => io.disconnect();
   }, []);
 
-  // 演出後、ユーザーが自分で押したときも画面を揺らす
-  function handleManualStart() {
-    const stage = stageRef.current;
-    const main = stage?.closest("main") ?? document.body;
-    if (!main) return;
-    main.classList.add("screen-shaking");
-    window.setTimeout(() => main.classList.remove("screen-shaking"), 650);
-  }
-
   return (
     <div ref={stageRef} className="robot-stage">
       {/* インベントリ */}
@@ -162,17 +131,6 @@ export default function RobotStage({
       </div>
 
       {children}
-
-      <div className="place-actions">
-        <button
-          ref={btnRef}
-          type="button"
-          className="start-btn"
-          onClick={handleManualStart}
-        >
-          {buttonLabel}
-        </button>
-      </div>
 
       {/* 疑似マウスカーソル */}
       <div ref={cursorRef} className="fake-cursor" aria-hidden="true">

@@ -255,7 +255,7 @@ body::after {
 }
 
 /* =========================================================
-   ロボラボ: オブジェクトを1つずつ配置 → 行動開始ボタン → 画面が揺れる
+   ロボラボ: オブジェクトを1つずつ配置
    ========================================================= */
 
 .robot-stage {
@@ -375,95 +375,6 @@ body::after {
 
 .fake-cursor.is-drop svg {
   transform: scale(1.12);
-}
-
-/* --- 行動開始ボタン（全部置き終わると出現） --- */
-.place-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 3rem;
-  padding: 0 2rem;
-  opacity: 0;
-  transform: translateY(12px);
-  pointer-events: none;
-}
-
-.robot-stage.ready .place-actions {
-  animation: btn-appear 500ms ease-out forwards;
-  pointer-events: auto;
-}
-
-@keyframes btn-appear {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.start-btn {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #ffffff;
-  background: #fb923c;
-  border: 4px solid #ffffff;
-  border-radius: 9999px;
-  padding: 0.6rem 2.6rem;
-  cursor: pointer;
-  box-shadow:
-    0 8px 0 rgba(0, 0, 0, 0.15),
-    0 12px 26px rgba(251, 146, 60, 0.45);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-
-.start-btn:hover {
-  transform: translateY(-2px);
-}
-
-.start-btn:active,
-.start-btn.is-pressed {
-  transform: translateY(4px);
-  box-shadow:
-    0 2px 0 rgba(0, 0, 0, 0.15),
-    0 6px 14px rgba(251, 146, 60, 0.4);
-}
-
-/* --- 画面全体が揺れる --- */
-@keyframes screen-shake {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  10% {
-    transform: translate(-7px, 3px) rotate(-0.6deg);
-  }
-  20% {
-    transform: translate(8px, -3px) rotate(0.6deg);
-  }
-  30% {
-    transform: translate(-9px, 3px) rotate(-0.5deg);
-  }
-  40% {
-    transform: translate(8px, -2px) rotate(0.5deg);
-  }
-  50% {
-    transform: translate(-6px, 2px) rotate(-0.4deg);
-  }
-  60% {
-    transform: translate(5px, -2px) rotate(0.3deg);
-  }
-  70% {
-    transform: translate(-4px, 1px) rotate(0deg);
-  }
-  80% {
-    transform: translate(3px, -1px) rotate(0deg);
-  }
-  90% {
-    transform: translate(-2px, 1px) rotate(0deg);
-  }
-}
-
-.screen-shaking {
-  animation: screen-shake 650ms ease-in-out;
 }
 
 /* =========================================================
@@ -777,19 +688,8 @@ body::after {
     animation: none;
   }
 
-  .place-actions {
-    opacity: 1;
-    transform: none;
-    animation: none;
-    pointer-events: auto;
-  }
-
   .fake-cursor {
     display: none;
-  }
-
-  .screen-shaking {
-    animation: none;
   }
 
   .sketch-content {
