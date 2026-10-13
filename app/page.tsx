@@ -95,6 +95,7 @@ export default function Home() {
               { label: "Shot2", img: robotlabotStill2 },
               { label: "GIF", img: robotlabotGif },
               { label: "More" },
+              { label: "今作り直すなら" },
             ]}
           >
           <div className="flex gap-8 items-start px-8">
@@ -221,8 +222,16 @@ export default function Home() {
                 学園祭での展示ということで、直感的なわかりやすさ、手に取ってもらいやすさを重視した。
               </p>
               <p className="leading-relaxed">
-                特に、多数のゲームが並ぶ中、短い時間で遊ぶゲームとして選ばれるには『第一印象』が重要だと考え、他チームが用意していなかった専用のタイトルロゴを制作した。一番クオリティが高そうだと感じさせる工夫をした結果、多くの来場者の目を引き、学園祭で最も人気なゲームに選んでもらった。
+                特に、多数のゲームが並ぶ中、短い時間で遊ぶゲームとして選ばれるには『第一印象』が重要だと考え、他チームが用意していなかった専用のタイトルロゴを制作した。一番クオリティが高そうだと感じさせる工夫をした結果、多くの来場者の目を引き、サークル内の展示で最も人気なゲームに選んでもらった。
               </p>
+              </div>
+            </PlaceItem>
+            <PlaceItem i={6} className="px-8 mt-8">
+              <div className="bg-white rounded-3xl border-2 border-white/80 p-6 text-3xl">
+                <h4 className="hero-outline about-pop text-4xl font-bold mb-3">今作り直すなら</h4>
+                <p className="leading-relaxed">
+                  好きなタイミングで全ブロックに重力を働かせる仕組みを追加したい。ブロックの配置に加え、ロボットの位置や落下後の地形を見越して発動するタイミングを考えることで、直感的な操作のまま、このゲームならではの遊びの幅と奥深さを広げたい。
+                </p>
               </div>
             </PlaceItem>
           </RobotStage>
@@ -345,6 +354,22 @@ export default function Home() {
                     </div>
                   </FlipCard>
                 </div>
+                <div className="px-8 mt-8">
+                  <FlipCard i={6}>
+                    <div className="bg-white rounded-3xl border-2 border-white/80 p-6 text-3xl">
+                      <h4 className="hero-outline about-pop text-4xl font-bold mb-3">今作り直すなら</h4>
+                      <p className="leading-relaxed mb-3">
+                        カードを気軽に引けるため、ドローがランダムなスキル発動に近く、戦闘との結びつきが弱かった。そこで、手札を５枚程度持ち、同じ種類のカードを同時に使うと相乗効果で威力が高まる仕組みにしたい。
+                      </p>
+                      <p className="leading-relaxed mb-3">
+                        また、ドローには攻撃の命中やジャスト回避の成功などの条件を設け、次の１枚を得るために戦闘中の行動が必要になるようにする。
+                      </p>
+                      <p className="leading-relaxed">
+                        「今使って敵に対処するか、もう１枚そろうまで温存するか」という判断と、範囲攻撃や強力な一撃など、手札に合わせた立ち回りを生み出し、ドローへの期待や緊張感を戦闘につなげたい。
+                      </p>
+                    </div>
+                  </FlipCard>
+                </div>
               </SweepReveal>
 
               <div className="mt-16 border-t border-gray-400/40 pt-10">
@@ -456,6 +481,17 @@ export default function Home() {
                     </p>
                   </div>
                 </SketchItem>
+                <SketchItem i={6} className="px-8 mt-8">
+                  <div className="bg-white rounded-3xl border-2 border-white/80 p-6 text-3xl">
+                    <h4 className="hero-outline about-pop text-4xl font-bold mb-3">今作り直すなら</h4>
+                    <p className="leading-relaxed mb-3">
+                      現状は、なぞって道を作る操作と、世界観を味わう体験の結びつきが弱いと感じている。そこで、なぞった場所から背景の奥に隠された風景が現れ、その跡が世界に残る演出を取り入れたい。
+                    </p>
+                    <p className="leading-relaxed">
+                      また、なぞる行為を主人公の自傷行為と結びつけるなど、操作に物語上の意味を持たせることで、先へ進む行為そのものが、世界を知り、変化させる体験になるようにしたい。
+                    </p>
+                  </div>
+                </SketchItem>
                 </SketchReveal>
 
                 <div className="mt-16 border-t border-gray-400/40 pt-10">
@@ -542,6 +578,17 @@ export default function Home() {
                       </p>
                       <p className="leading-relaxed">
                         また、今までのゲーム制作でメンバーの熱意が最もあったため、初めの方は進捗の報告や役割分担のミスなどで手間を増やしてしまうこともあったが、コミュニケーションを重ね、制作スピードがどんどん速くなっていった。
+                      </p>
+                    </div>
+                  </div>
+                  <div className="px-8 mt-8">
+                    <div className="bg-white rounded-3xl border-2 border-white/80 p-6 text-3xl">
+                      <h4 className="hero-outline about-pop text-4xl font-bold mb-3">今作り直すなら</h4>
+                      <p className="leading-relaxed mb-3">
+                        現状はトラッキングAIMの面白さに偏っているため、フリックAIMを生かす場面も作りたい。そこで、相手が撃ち落とせる弾を放つスキルを追加したい。
+                      </p>
+                      <p className="leading-relaxed">
+                        相手を狙い続ける最中に飛来する弾へ素早く照準を合わせる必要を生み、「攻撃を続けるか、防御のために照準を切り替えるか」という判断を撃ち合いに取り入れたい。
                       </p>
                     </div>
                   </div>
